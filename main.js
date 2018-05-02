@@ -21,6 +21,10 @@ function createAddWindow() {
     protocol: 'file:',
     slashes: true,
   }));
+  // Garbage collection handle.
+  addWindow.on('close', () => {
+    addWindow = null;
+  });
 }
 // Create menu template.
 const mainMenuTemplate = [
@@ -46,6 +50,10 @@ const mainMenuTemplate = [
     ],
   },
 ];
+// If Mac, add empty object to menu.
+if (process.platform == 'darwin') {
+  mainMenuTemplate.unshift({});
+}
 // Listen for the app to be ready.
 app.on('ready', () => {
   // Create new window.
